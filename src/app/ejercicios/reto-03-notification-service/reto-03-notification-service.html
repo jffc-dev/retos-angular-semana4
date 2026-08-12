@@ -1,0 +1,38 @@
+<section class="mx-auto max-w-xl rounded-xl border border-slate-200 p-6 shadow-sm">
+  <h2 class="text-xl font-semibold text-slate-900">Reto 3 · NotificationService</h2>
+  <p class="mt-1 text-sm text-slate-600">
+    Pendiente: inyecta <code>NotificationService</code> aquí y llama
+    <code>notificationService.show(mensaje, tipo)</code> desde cada botón.
+    Cualquier componente puede disparar notificaciones; el
+    <code>ToastContainer</code> las muestra sin conocer quién las generó.
+  </p>
+
+  <div class="mt-6 grid grid-cols-2 gap-3">
+    <button
+      type="button"
+      class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+    >
+      Mostrar éxito
+    </button>
+    <button
+      type="button"
+      class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+    >
+      Mostrar error
+    </button>
+    <button
+      type="button"
+      class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600"
+    >
+      Mostrar advertencia
+    </button>
+    <button
+      type="button"
+      class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+    >
+      Mostrar info
+    </button>
+  </div>
+</section>
+
+<app-toast-container />
