@@ -12,4 +12,6 @@ import { ThemeService } from '../../services/theme-service';
 export class Reto02ThemeService {
   // TODO: inyecta ThemeService con inject() en una propiedad "themeService"
   // para usar themeService.claseTema() en el contenedor raíz del template.
+
+  themeService = inject(ThemeService)
 }

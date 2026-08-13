@@ -5,7 +5,11 @@
     <code>themeService.claseTema()</code> para pintar el contenedor.
   </p>
 
-  <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+  <div
+    class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+    [class.bg-slate-900]="themeService.tema() === 'dark'"
+    [class.bg-white]="themeService.tema() === 'light'"
+  >
     <app-header />
     <app-sidebar />
     <app-footer />
