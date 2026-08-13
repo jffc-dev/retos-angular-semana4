@@ -1,8 +1,10 @@
 <section class="mx-auto max-w-3xl rounded-xl border border-slate-200 p-6 shadow-sm">
   <h2 class="text-xl font-semibold text-slate-900">Reto 1 · CounterService</h2>
   <p class="mt-1 text-sm text-slate-600">
-    Dos componentes hermanos, sin relación padre-hijo, inyectan el mismo
-    <code>CounterService</code> y muestran el mismo contador sincronizado.
+    Pendiente: por ahora cada componente tiene su propio contador local, así
+    que incrementar uno no afecta al otro. Extrae esa lógica a
+    <code>CounterService</code> para que ambos hermanos, sin relación
+    padre-hijo, inyecten el mismo servicio y compartan el mismo contador.
   </p>
 
   <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">

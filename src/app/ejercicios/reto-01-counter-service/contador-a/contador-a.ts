@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { CounterService } from '../../../services/counter-service';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-contador-a',
@@ -7,7 +6,26 @@ import { CounterService } from '../../../services/counter-service';
   templateUrl: './contador-a.html',
 })
 export class ContadorAComponent {
-  // TODO: inyecta CounterService con inject() en una propiedad
-  // "counterService" para usar counterService.contador() y sus métodos
-  // increment()/decrement()/reset() en el template.
+  // TODO: esta lógica está duplicada en ContadorBComponent y cada
+  // componente mantiene su propio contador, por eso no están
+  // sincronizados. Muévela a CounterService (services/counter-service.ts)
+  // y reemplaza contadorSignal/contador/increment()/decrement()/reset() por
+  // counterService = inject(CounterService), usando
+  // counterService.contador() y sus métodos en el template.
+
+  private contadorSignal = signal(0);
+
+  contador = this.contadorSignal.asReadonly();
+
+  increment(): void {
+    this.contadorSignal.update((valorActual) => valorActual + 1);
+  }
+
+  decrement(): void {
+    this.contadorSignal.update((valorActual) => valorActual - 1);
+  }
+
+  reset(): void {
+    this.contadorSignal.set(0);
+  }
 }
