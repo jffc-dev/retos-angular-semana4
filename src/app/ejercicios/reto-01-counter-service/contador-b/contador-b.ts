@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { CounterService } from '../../../services/counter-service';
 
 @Component({
   selector: 'app-contador-b',
@@ -12,20 +13,6 @@ export class ContadorBComponent {
   // y reemplaza contadorSignal/contador/increment()/decrement()/reset() por
   // counterService = inject(CounterService), usando
   // counterService.contador() y sus métodos en el template.
+  constructor(public counterService: CounterService){}
 
-  private contadorSignal = signal(0);
-
-  contador = this.contadorSignal.asReadonly();
-
-  increment(): void {
-    this.contadorSignal.update((valorActual) => valorActual + 1);
-  }
-
-  decrement(): void {
-    this.contadorSignal.update((valorActual) => valorActual - 1);
-  }
-
-  reset(): void {
-    this.contadorSignal.set(0);
-  }
 }
