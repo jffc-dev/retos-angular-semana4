@@ -10,5 +10,6 @@ export class ToastContainerComponent {
   // TODO: inyecta NotificationService con inject() en una propiedad
   // "notificationService" y recorre notificationService.notificaciones()
   // con @for en el template; cada toast debe poder cerrarse llamando
-  // notificationService.dismiss(id).
+  // notificationService.dismiss(id).'
+  notificationService = inject(NotificationService)
 }

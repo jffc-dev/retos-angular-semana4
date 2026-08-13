@@ -2,4 +2,18 @@
   <!-- Pendiente: inyecta NotificationService y recorre
   notificationService.notificaciones() con @for para renderizar cada toast,
   con un botón que llame notificationService.dismiss(id). -->
+
+  @for(notificacion of notificationService.notificaciones(); track notificacion.id){
+    <div class="flex items-start justify-between gap-3"
+      [class.bg-green-600]="notificacion.tipo === 'exito'"
+      [class.bg-blue-600]="notificacion.tipo === 'info'"
+      [class.bg-red-600]="notificacion.tipo === 'error'"
+      [class.bg-amber-600]="notificacion.tipo === 'advertencia'"
+    >
+      <span>{{notificacion.mensaje}}</span>
+      <button class="font-bold" (click)="notificationService.eliminar(notificacion.id)">
+        x
+      </button>
+    </div>
+  }
 </div>

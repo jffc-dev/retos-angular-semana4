@@ -12,4 +12,6 @@ export class Reto03NotificationService {
   // "notificationService" y úsala en los botones del template para llamar
   // notificationService.show(mensaje, tipo) con distintos tipos
   // ('info' | 'exito' | 'error' | 'advertencia').
+
+  notificationService = inject(NotificationService)
 }
