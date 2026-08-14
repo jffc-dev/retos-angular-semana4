@@ -1,0 +1,110 @@
+<section class="mx-auto max-w-4xl rounded-xl border border-slate-200 p-6 shadow-sm">
+  <h2 class="text-xl font-semibold text-slate-900">Reto 4 · Gestión de productos (HttpClient + httpResource)</h2>
+  <p class="mt-1 text-sm text-slate-600">
+    Pendiente: conecta el formulario y los botones de la tabla con
+    <code>ProductService</code> para crear, editar y eliminar productos
+    contra Supabase. El listado ya funciona: viene de
+    <code>productService.productsResource</code>.
+  </p>
+
+  @if (mensajeError) {
+    <p class="mt-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">
+      {{ mensajeError }}
+    </p>
+  }
+
+  <form class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-4" (ngSubmit)="guardarProducto()">
+    <input
+      class="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+      type="text"
+      name="name"
+      placeholder="Nombre"
+      [(ngModel)]="formulario.name"
+    />
+    <input
+      class="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+      type="number"
+      name="price"
+      placeholder="Precio"
+      [(ngModel)]="formulario.price"
+    />
+    <input
+      class="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+      type="text"
+      name="image"
+      placeholder="URL de imagen"
+      [(ngModel)]="formulario.image"
+    />
+    <div class="flex gap-2">
+      <button
+        type="submit"
+        class="flex-1 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+      >
+        {{ productoEnEdicionId ? 'Guardar cambios' : 'Crear producto' }}
+      </button>
+      @if (productoEnEdicionId) {
+        <button
+          type="button"
+          class="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+          (click)="cancelarEdicion()"
+        >
+          Cancelar
+        </button>
+      }
+    </div>
+  </form>
+
+  <div class="mt-6 overflow-x-auto">
+    <table class="w-full text-left text-sm">
+      <thead>
+        <tr class="border-b border-slate-200 text-slate-500">
+          <th class="py-2 pr-2">Imagen</th>
+          <th class="py-2 pr-2">Nombre</th>
+          <th class="py-2 pr-2">Precio</th>
+          <th class="py-2 pr-2">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (productService.productsResource.isLoading()) {
+          <tr>
+            <td class="py-4 text-slate-500" colspan="4">Cargando productos...</td>
+          </tr>
+        }
+        @if (productService.productsResource.error()) {
+          <tr>
+            <td class="py-4 text-red-600" colspan="4">
+              Ocurrió un error al cargar los productos.
+            </td>
+          </tr>
+        }
+        @for (producto of productService.productsResource.value() ?? []; track producto.id) {
+          <tr class="border-b border-slate-100">
+            <td class="py-2 pr-2">
+              <img [src]="producto.image" [alt]="producto.name" class="h-12 w-12 rounded object-cover" />
+            </td>
+            <td class="py-2 pr-2">{{ producto.name }}</td>
+            <td class="py-2 pr-2">$ {{ producto.price }}</td>
+            <td class="py-2 pr-2">
+              <div class="flex gap-2">
+                <button
+                  type="button"
+                  class="rounded-lg bg-amber-500 px-3 py-1 text-xs font-medium text-white hover:bg-amber-600"
+                  (click)="editarProducto(producto)"
+                >
+                  Editar
+                </button>
+                <button
+                  type="button"
+                  class="rounded-lg bg-red-600 px-3 py-1 text-xs font-medium text-white hover:bg-red-700"
+                  (click)="eliminarProducto(producto.id)"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
