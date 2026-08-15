@@ -65,19 +65,13 @@
         </tr>
       </thead>
       <tbody>
-        @if (productService.productsResource.isLoading()) {
+        <!-- @if (productService.productsResource.isLoading()) {
           <tr>
             <td class="py-4 text-slate-500" colspan="4">Cargando productos...</td>
           </tr>
-        }
-        @if (productService.productsResource.error()) {
-          <tr>
-            <td class="py-4 text-red-600" colspan="4">
-              Ocurrió un error al cargar los productos.
-            </td>
-          </tr>
-        }
-        @for (producto of productService.productsResource.value() ?? []; track producto.id) {
+        } -->
+
+        @for (producto of productosSignal() ?? []; track producto.id) {
           <tr class="border-b border-slate-100">
             <td class="py-2 pr-2">
               <img [src]="producto.image" [alt]="producto.name" class="h-12 w-12 rounded object-cover" />
