@@ -33,8 +33,16 @@ export class Reto04Productos {
   guardarProducto(): void {
 
     if(this.productoEnEdicionId === null){
-      this.productService.crearProducto(this.formulario).subscribe((dato) => {
-        this.listarProductos()
+      this.productService.crearProducto(this.formulario).subscribe({
+        next: () => {
+          this.listarProductos()
+        },
+        error: () => {
+          console.error('ocurrio un error')
+        },
+        complete: () => {
+          // manejar nuestro loading state
+        }
       })
     } else {
       this.productService.actualizarProducto(this.productoEnEdicionId, this.formulario).subscribe((dato) => {
