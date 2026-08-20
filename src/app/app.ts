@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { Reto01CounterService } from './ejercicios/reto-01-counter-service/reto-01-counter-service';
-import { Reto02ThemeService } from './ejercicios/reto-02-theme-service/reto-02-theme-service';
-import { Reto03NotificationService } from './ejercicios/reto-03-notification-service/reto-03-notification-service';
-import { Reto04Productos } from './ejercicios/reto-04-product-service/reto-04-product-service';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [Reto01CounterService, Reto02ThemeService, Reto03NotificationService, Reto04Productos],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
