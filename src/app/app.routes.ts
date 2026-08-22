@@ -7,8 +7,11 @@ import { HomeComponent } from './features/home/home';
 import { NotFoundComponent } from './features/not-found/not-found';
 
 export const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'reto-01/:prueba', component: Reto01CounterService},
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: 'home', component: HomeComponent},
+  {path: 'reto-01', component: Reto01CounterService, children: [
+    {path: ':prueba', component: Reto01CounterService}
+  ]},
   {path: 'reto-02', component: Reto02ThemeService},
   {path: 'reto-03', component: Reto03NotificationService},
   {path: 'reto-04', component: Reto04Productos},

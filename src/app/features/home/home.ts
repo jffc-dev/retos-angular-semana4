@@ -15,3 +15,10 @@ export class HomeComponent {
     this.router.navigate([ruta])
   }
 }
+
+
+// OJO estamos en http://localhost:4200/home
+
+// Al usar rutas absolutas -> http://localhost:4200/reto-02
+
+// Al usar rutas relativas -> http://localhost:4200/home/reto-02

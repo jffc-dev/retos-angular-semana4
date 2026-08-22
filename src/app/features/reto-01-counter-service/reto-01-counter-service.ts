@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-reto-01-counter-service',
   imports: [ContadorAComponent, ContadorBComponent],
   templateUrl: './reto-01-counter-service.html',
+  styleUrl: './reto-01-counter-service.css'
 })
 export class Reto01CounterService {
   private route = inject(ActivatedRoute)
