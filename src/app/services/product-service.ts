@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { IProduct } from '../interfaces/product.interface';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 
 const PRODUCTS_URL = `${environment.supabaseUrl}/product`;
 
@@ -15,13 +15,15 @@ const SUPABASE_HEADERS = {
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private http = inject(HttpClient)
+  private http = inject(HttpClient);
 
-  listarProductos() {
-    return this.http.get<IProduct[]>(PRODUCTS_URL, {
-      headers: SUPABASE_HEADERS
-    })
-  }
+  readonly productsResource = httpResource<IProduct[]>(
+    () => ({
+      url: PRODUCTS_URL,
+      headers: SUPABASE_HEADERS,
+    }),
+    { defaultValue: [] },
+  );
 
   crearProducto(producto: Omit<IProduct, 'id'>) {
     return this.http.post<IProduct>(PRODUCTS_URL, producto, {

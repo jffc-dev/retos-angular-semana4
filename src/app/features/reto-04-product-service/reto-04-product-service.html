@@ -24,6 +24,21 @@
     </p>
   } -->
 
+  @if (mensajeError()) {
+    <p class="mt-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">
+      {{ mensajeError() }}
+    </p>
+  }
+
+  @if (productService.productsResource.error(); as error) {
+    <p class="mt-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">
+      No se pudo cargar el catálogo
+      <button type="button" class="ml-2 underline" (click)="productService.productsResource.reload()">
+        Reintentar
+      </button>
+    </p>
+  }
+
   <form class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-4" (ngSubmit)="guardarProducto()">
     <input
       class="rounded-lg border border-slate-300 px-3 py-2 text-sm"
@@ -92,7 +107,13 @@
           </tr>
         } -->
 
-        @for (producto of productosSignal() ?? []; track producto.id) {
+        @if (productService.productsResource.isLoading()) {
+          <tr>
+            <td class="py-4 text-slate-500" colspan="4">Cargando productos...</td>
+          </tr>
+        }
+
+        @for (producto of productosFiltrados(); track producto.id) {
           <tr class="border-b border-slate-100">
             <td class="py-2 pr-2">
               <img [src]="producto.image" [alt]="producto.name" class="h-12 w-12 rounded object-cover" />
