@@ -9,48 +9,31 @@ import { ProductService } from '../../services/product-service';
   templateUrl: './reto-04-product-service.html',
 })
 export class Reto04Productos {
-
-  ngOnInit(): void {
-    this.listarProductos()
-  }
-
-  productService = inject(ProductService);
+  readonly productService = inject(ProductService);
 
   // Formulario compartido entre crear y editar: sin id en edición -> crea, con id -> actualiza.
   formulario: Omit<IProduct, 'id'> = { name: '', price: 0, image: '' };
   productoEnEdicionId: string | null = null;
-  mensajeError = signal('');
-  productosSignal = signal<IProduct[]>([])
-  busqueda = signal('')
+  readonly mensajeError = signal('');
+  readonly busqueda = signal('');
+  readonly mutando = signal(false);
+  readonly cargando = computed(
+    () => this.productService.productsResource.isLoading() || this.mutando(),
+  );
 
-  cargando = signal(false);
-
-  productosFiltrados = computed(()=> {
-    return this.productosSignal().filter((producto) => producto.name.toLowerCase().includes(this.busqueda().toLowerCase()))
-  })
-
-
-  listarProductos() {
-    this.cargando.set(true)
-
-    this.productService.listarProductos().subscribe({
-      next: (datos) => {
-        this.productosSignal.set(datos)
-      },
-      error: () => {
-        console.error('ocurrio un error')
-      },
-      complete: () => {
-        this.cargando.set(false)
-      }
-    })
-  }
+  readonly productosFiltrados = computed(() => {
+    const termino = this.busqueda().toLowerCase();
+    return this.productService.productsResource
+      .value()
+      .filter((producto) => producto.name.toLowerCase().includes(termino));
+  });
 
   // TODO: crearProducto o actualizarProducto según productoEnEdicionId, con
   // subscribe({ next, error }). En next: reload() + cancelarEdicion(). En error: mensajeError.
   guardarProducto(): void {
 
-    this.cargando.set(true)
+    this.mutando.set(true);
+    this.mensajeError.set('');
 
     const observable$ = this.productoEnEdicionId === null
       ? this.productService.crearProducto(this.formulario)
@@ -58,15 +41,15 @@ export class Reto04Productos {
 
     observable$.subscribe({
       next: () => {
-        this.listarProductos()
+        this.productService.productsResource.reload();
+        this.cancelarEdicion();
       },
       error: () => {
-        // this.mensajeError.set('Ocurrio un error al guardar el producto')
-        alert('Ocurrio un error al guardar el producto')
-        this.cargando.set(false)
+        this.mensajeError.set('Ocurrió un error al guardar el producto');
+        this.mutando.set(false);
       },
       complete: () => {
-        this.cargando.set(false)
+        this.mutando.set(false);
       }
     })
 
@@ -81,17 +64,20 @@ export class Reto04Productos {
   // TODO: confirm() nativo y, si acepta, eliminarProducto(id) con subscribe({ next, error }).
   // En next: reload(). En error: mensajeError.
   eliminarProducto(id: string): void {
+    if (!confirm('¿Eliminar este producto?')) return;
+
+    this.mutando.set(true);
+    this.mensajeError.set('');
     this.productService.eliminarProducto(id).subscribe({
       next: () => {
-        this.listarProductos()
+        this.productService.productsResource.reload();
       },
       error: () => {
-        // this.mensajeError.set('Ocurrio un error al guardar el producto')
-        alert('Ocurrio un error al eliminar el producto')
-        this.cargando.set(false)
+        this.mensajeError.set('Ocurrió un error al eliminar el producto');
+        this.mutando.set(false);
       },
       complete: () => {
-        this.cargando.set(false)
+        this.mutando.set(false);
       }
     })
   }
